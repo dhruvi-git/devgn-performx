@@ -16,14 +16,15 @@ export const Route = createFileRoute("/app")({
   component: AppLayout,
 });
 
-const nav = [
+import type { Role } from "@/lib/auth";
+const nav: { to: string; label: string; icon: typeof LayoutDashboard; roles: Role[] }[] = [
   { to: "/app/executive", label: "Executive", icon: LayoutDashboard, roles: ["super_admin"] },
   { to: "/app/hod", label: "HOD Center", icon: Users, roles: ["super_admin", "hod", "team_lead"] },
   { to: "/app/employee", label: "My Workspace", icon: ClipboardList, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/departments", label: "Departments", icon: Building2, roles: ["super_admin", "hod"] },
   { to: "/app/analytics", label: "Analytics", icon: BarChart3, roles: ["super_admin", "hod"] },
   { to: "/app/ai", label: "AI Assistant", icon: Brain, roles: ["super_admin", "hod", "team_lead", "employee"] },
-] as const;
+];
 
 function AppLayout() {
   const navigate = useNavigate();
