@@ -6,8 +6,7 @@ import {
 import { Target, Calendar, CheckCircle2, MessageSquare, Sparkles } from "lucide-react";
 import { PageHeader, KpiCard, Panel } from "@/components/app/Panels";
 import { monthlyTrend, tasks } from "@/lib/mock-data";
-import { getSession } from "@/lib/auth";
-import { useEffect, useState } from "react";
+import { useAuth } from "@/lib/auth-context";
 
 export const Route = createFileRoute("/app/employee")({
   head: () => ({ meta: [{ title: "My Workspace · PerformX" }] }),
@@ -15,8 +14,9 @@ export const Route = createFileRoute("/app/employee")({
 });
 
 function Employee() {
-  const [name, setName] = useState("You");
-  useEffect(() => { const s = getSession(); if (s) setName(s.name); }, []);
+  const { profile } = useAuth();
+  const name = profile?.full_name?.split(" ")[0] || "You";
+
 
   return (
     <div className="p-8">

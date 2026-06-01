@@ -1,36 +1,6 @@
+import { supabase } from "@/integrations/supabase/client";
+
 export type Role = "super_admin" | "hod" | "team_lead" | "employee";
-
-export type SessionUser = {
-  name: string;
-  email: string;
-  role: Role;
-};
-
-const KEY = "devgn_performx_session";
-
-export function getSession(): SessionUser | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(KEY);
-    return raw ? (JSON.parse(raw) as SessionUser) : null;
-  } catch {
-    return null;
-  }
-}
-
-export function setSession(user: SessionUser) {
-  localStorage.setItem(KEY, JSON.stringify(user));
-}
-
-export function clearSession() {
-  localStorage.removeItem(KEY);
-}
-
-export function roleHome(role: Role): string {
-  if (role === "super_admin") return "/app/executive";
-  if (role === "hod" || role === "team_lead") return "/app/hod";
-  return "/app/employee";
-}
 
 export const roleLabels: Record<Role, string> = {
   super_admin: "Super Admin",
@@ -38,3 +8,43 @@ export const roleLabels: Record<Role, string> = {
   team_lead: "Team Lead",
   employee: "Employee",
 };
+
+export function roleHome(role: Role): string {
+  if (role === "super_admin") return "/app/executive";
+  if (role === "hod" || role === "team_lead") return "/app/hod";
+  return "/app/employee";
+}
+
+const ORDER: Role[] = ["super_admin", "hod", "team_lead", "employee"];
+export function highestRole(roles: Role[]): Role {
+  for (const r of ORDER) if (roles.includes(r)) return r;
+  return "employee";
+}
+
+export type Profile = {
+  id: string;
+  full_name: string;
+  email: string | null;
+  avatar_url: string | null;
+  job_title: string | null;
+  department_id: string | null;
+};
+
+export async function fetchProfileAndRole(
+  userId: string,
+): Promise<{ profile: Profile | null; role: Role }> {
+  const [{ data: profile }, { data: roles }] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("id, full_name, email, avatar_url, job_title, department_id")
+      .eq("id", userId)
+      .maybeSingle(),
+    supabase.from("user_roles").select("role").eq("user_id", userId),
+  ]);
+  const role = highestRole(((roles ?? []) as { role: Role }[]).map((r) => r.role));
+  return { profile: (profile as Profile | null) ?? null, role };
+}
+
+export async function signOut() {
+  await supabase.auth.signOut();
+}
