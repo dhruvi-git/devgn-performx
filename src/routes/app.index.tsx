@@ -1,16 +1,24 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { useAuth } from "@/lib/auth-context";
+import { roleHome } from "@/lib/auth";
 
 export const Route = createFileRoute("/app/")({
-  beforeLoad: () => {
-    const raw = typeof window !== "undefined" ? localStorage.getItem("devgn_performx_session") : null;
-    if (!raw) throw redirect({ to: "/login" });
-    try {
-      const s = JSON.parse(raw);
-      if (s.role === "super_admin") throw redirect({ to: "/app/executive" });
-      if (s.role === "hod" || s.role === "team_lead") throw redirect({ to: "/app/hod" });
-      throw redirect({ to: "/app/employee" });
-    } catch (e) {
-      throw e;
-    }
-  },
+  component: AppIndex,
 });
+
+function AppIndex() {
+  const navigate = useNavigate();
+  const { status, role } = useAuth();
+
+  useEffect(() => {
+    if (status === "authenticated") navigate({ to: roleHome(role), replace: true });
+    else if (status === "anonymous") navigate({ to: "/login", replace: true });
+  }, [status, role, navigate]);
+
+  return (
+    <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="text-sm text-muted-foreground animate-pulse">Routing to your workspace…</div>
+    </div>
+  );
+}

@@ -1,22 +1,17 @@
-import { createFileRoute, Outlet, Link, useNavigate, useRouterState, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   LayoutDashboard, Users, BarChart3, ClipboardList, Brain, Bell, Search,
   LogOut, Settings, ChevronLeft, Building2,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
-import { getSession, clearSession, roleLabels, type SessionUser } from "@/lib/auth";
+import { useAuth } from "@/lib/auth-context";
+import { roleLabels, signOut, type Role } from "@/lib/auth";
 
 export const Route = createFileRoute("/app")({
-  beforeLoad: () => {
-    if (typeof window === "undefined") return;
-    const raw = localStorage.getItem("devgn_performx_session");
-    if (!raw) throw redirect({ to: "/login" });
-  },
   component: AppLayout,
 });
 
-import type { Role } from "@/lib/auth";
 const nav: { to: string; label: string; icon: typeof LayoutDashboard; roles: Role[] }[] = [
   { to: "/app/executive", label: "Executive", icon: LayoutDashboard, roles: ["super_admin"] },
   { to: "/app/hod", label: "HOD Center", icon: Users, roles: ["super_admin", "hod", "team_lead"] },
@@ -28,25 +23,28 @@ const nav: { to: string; label: string; icon: typeof LayoutDashboard; roles: Rol
 
 function AppLayout() {
   const navigate = useNavigate();
-  const [user, setUser] = useState<SessionUser | null>(null);
+  const { status, profile, role } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    const s = getSession();
-    if (!s) navigate({ to: "/login" });
-    else setUser(s);
-  }, [navigate]);
+    if (status === "anonymous") navigate({ to: "/login", replace: true });
+  }, [status, navigate]);
 
-  if (!user) return null;
-  const visible = nav.filter((n) => n.roles.includes(user.role));
+  if (status !== "authenticated") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-sm text-muted-foreground animate-pulse">Authenticating…</div>
+      </div>
+    );
+  }
+
+  const visible = nav.filter((n) => n.roles.includes(role));
+  const displayName = profile?.full_name || profile?.email || "Member";
 
   return (
     <div className="min-h-screen flex bg-background">
-      {/* Sidebar */}
-      <aside
-        className={`${collapsed ? "w-20" : "w-64"} transition-all duration-300 border-r border-gold/15 bg-surface/60 backdrop-blur-xl flex flex-col`}
-      >
+      <aside className={`${collapsed ? "w-20" : "w-64"} transition-all duration-300 border-r border-gold/15 bg-surface/60 backdrop-blur-xl flex flex-col`}>
         <div className="p-5 border-b border-gold/15 flex items-center justify-between">
           {collapsed ? <Logo size={32} withText={false} /> : <Logo size={32} />}
         </div>
@@ -78,7 +76,7 @@ function AppLayout() {
             {!collapsed && <span>Collapse</span>}
           </button>
           <button
-            onClick={() => { clearSession(); navigate({ to: "/login" }); }}
+            onClick={async () => { await signOut(); navigate({ to: "/login", replace: true }); }}
             className="w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition"
           >
             <LogOut className="size-4" />
@@ -87,7 +85,6 @@ function AppLayout() {
         </div>
       </aside>
 
-      {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
         <header className="h-16 border-b border-gold/15 bg-surface/40 backdrop-blur-xl flex items-center justify-between px-6">
           <div className="flex items-center gap-3 flex-1 max-w-md">
@@ -107,11 +104,11 @@ function AppLayout() {
             </button>
             <div className="flex items-center gap-3 pl-4 border-l border-gold/15">
               <div className="text-right hidden sm:block">
-                <div className="text-sm text-foreground">{user.name}</div>
-                <div className="text-xs text-gold">{roleLabels[user.role]}</div>
+                <div className="text-sm text-foreground">{displayName}</div>
+                <div className="text-xs text-gold">{roleLabels[role]}</div>
               </div>
               <div className="size-9 rounded-full bg-gradient-gold flex items-center justify-center text-primary-foreground text-sm font-medium">
-                {user.name[0]?.toUpperCase()}
+                {displayName[0]?.toUpperCase()}
               </div>
             </div>
           </div>
