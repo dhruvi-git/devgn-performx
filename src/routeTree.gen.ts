@@ -22,6 +22,8 @@ import { Route as AppEmployeeRouteImport } from './routes/app.employee'
 import { Route as AppDepartmentsRouteImport } from './routes/app.departments'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as AppAiRouteImport } from './routes/app.ai'
+import { Route as AppDepartmentsSlugRouteImport } from './routes/app.departments.$slug'
+import { Route as AppAdminUsersRouteImport } from './routes/app.admin.users'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -88,6 +90,16 @@ const AppAiRoute = AppAiRouteImport.update({
   path: '/ai',
   getParentRoute: () => AppRoute,
 } as any)
+const AppDepartmentsSlugRoute = AppDepartmentsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => AppDepartmentsRoute,
+} as any)
+const AppAdminUsersRoute = AppAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -98,11 +110,13 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/departments': typeof AppDepartmentsRoute
+  '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
   '/app/': typeof AppIndexRoute
+  '/app/admin/users': typeof AppAdminUsersRoute
+  '/app/departments/$slug': typeof AppDepartmentsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -112,11 +126,13 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/departments': typeof AppDepartmentsRoute
+  '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
   '/app': typeof AppIndexRoute
+  '/app/admin/users': typeof AppAdminUsersRoute
+  '/app/departments/$slug': typeof AppDepartmentsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -128,11 +144,13 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/departments': typeof AppDepartmentsRoute
+  '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
   '/app/': typeof AppIndexRoute
+  '/app/admin/users': typeof AppAdminUsersRoute
+  '/app/departments/$slug': typeof AppDepartmentsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -150,6 +168,8 @@ export interface FileRouteTypes {
     | '/app/executive'
     | '/app/hod'
     | '/app/'
+    | '/app/admin/users'
+    | '/app/departments/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -164,6 +184,8 @@ export interface FileRouteTypes {
     | '/app/executive'
     | '/app/hod'
     | '/app'
+    | '/app/admin/users'
+    | '/app/departments/$slug'
   id:
     | '__root__'
     | '/'
@@ -179,6 +201,8 @@ export interface FileRouteTypes {
     | '/app/executive'
     | '/app/hod'
     | '/app/'
+    | '/app/admin/users'
+    | '/app/departments/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -283,27 +307,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAiRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/departments/$slug': {
+      id: '/app/departments/$slug'
+      path: '/$slug'
+      fullPath: '/app/departments/$slug'
+      preLoaderRoute: typeof AppDepartmentsSlugRouteImport
+      parentRoute: typeof AppDepartmentsRoute
+    }
+    '/app/admin/users': {
+      id: '/app/admin/users'
+      path: '/admin/users'
+      fullPath: '/app/admin/users'
+      preLoaderRoute: typeof AppAdminUsersRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
+
+interface AppDepartmentsRouteChildren {
+  AppDepartmentsSlugRoute: typeof AppDepartmentsSlugRoute
+}
+
+const AppDepartmentsRouteChildren: AppDepartmentsRouteChildren = {
+  AppDepartmentsSlugRoute: AppDepartmentsSlugRoute,
+}
+
+const AppDepartmentsRouteWithChildren = AppDepartmentsRoute._addFileChildren(
+  AppDepartmentsRouteChildren,
+)
 
 interface AppRouteChildren {
   AppAiRoute: typeof AppAiRoute
   AppAnalyticsRoute: typeof AppAnalyticsRoute
-  AppDepartmentsRoute: typeof AppDepartmentsRoute
+  AppDepartmentsRoute: typeof AppDepartmentsRouteWithChildren
   AppEmployeeRoute: typeof AppEmployeeRoute
   AppExecutiveRoute: typeof AppExecutiveRoute
   AppHodRoute: typeof AppHodRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppAdminUsersRoute: typeof AppAdminUsersRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAiRoute: AppAiRoute,
   AppAnalyticsRoute: AppAnalyticsRoute,
-  AppDepartmentsRoute: AppDepartmentsRoute,
+  AppDepartmentsRoute: AppDepartmentsRouteWithChildren,
   AppEmployeeRoute: AppEmployeeRoute,
   AppExecutiveRoute: AppExecutiveRoute,
   AppHodRoute: AppHodRoute,
   AppIndexRoute: AppIndexRoute,
+  AppAdminUsersRoute: AppAdminUsersRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
