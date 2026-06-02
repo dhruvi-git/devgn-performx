@@ -60,10 +60,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Devgn PerformX is the luxury enterprise operating system for workforce intelligence, KPI tracking, and AI-powered performance management.",
       },
-      { property: "og:title", content: "Devgn PerformX" },
-      { property: "og:description", content: "AI-Powered Workforce Intelligence for Devgn Cinex." },
+      { property: "og:title", content: "Devgn PerformX — AI-Powered Workforce Intelligence" },
+      { property: "og:description", content: "Devgn PerformX is an AI-powered enterprise platform for workforce intelligence and performance management." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Devgn PerformX — AI-Powered Workforce Intelligence" },
+      { name: "description", content: "Devgn PerformX is an AI-powered enterprise platform for workforce intelligence and performance management." },
+      { name: "twitter:description", content: "Devgn PerformX is an AI-powered enterprise platform for workforce intelligence and performance management." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1a3526ee-fbb6-4628-ac7d-810ece61fe43/id-preview-1673a33c--e3db6917-52cc-452b-9f58-4f4393fa1285.lovable.app-1780374310169.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1a3526ee-fbb6-4628-ac7d-810ece61fe43/id-preview-1673a33c--e3db6917-52cc-452b-9f58-4f4393fa1285.lovable.app-1780374310169.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
