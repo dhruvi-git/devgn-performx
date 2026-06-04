@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tan
 import { useEffect, useState } from "react";
 import {
   LayoutDashboard, Users, BarChart3, ClipboardList, Brain, Bell, Search,
-  LogOut, Settings, ChevronLeft, Building2, ShieldCheck,
+  LogOut, Settings, ChevronLeft, Building2, ShieldCheck, Kanban, Trophy,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { useAuth } from "@/lib/auth-context";
@@ -16,6 +16,8 @@ const nav: { to: string; label: string; icon: typeof LayoutDashboard; roles: Rol
   { to: "/app/executive", label: "Executive", icon: LayoutDashboard, roles: ["super_admin"] },
   { to: "/app/hod", label: "HOD Center", icon: Users, roles: ["super_admin", "hod", "team_lead"] },
   { to: "/app/employee", label: "My Workspace", icon: ClipboardList, roles: ["super_admin", "hod", "team_lead", "employee"] },
+  { to: "/app/tasks", label: "Task Board", icon: Kanban, roles: ["super_admin", "hod", "team_lead", "employee"] },
+  { to: "/app/performance", label: "Performance", icon: Trophy, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/departments", label: "Departments", icon: Building2, roles: ["super_admin", "hod"] },
   { to: "/app/analytics", label: "Analytics", icon: BarChart3, roles: ["super_admin", "hod"] },
   { to: "/app/ai", label: "AI Assistant", icon: Brain, roles: ["super_admin", "hod", "team_lead", "employee"] },
