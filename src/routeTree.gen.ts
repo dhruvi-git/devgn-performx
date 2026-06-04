@@ -16,6 +16,8 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppTasksRouteImport } from './routes/app.tasks'
+import { Route as AppPerformanceRouteImport } from './routes/app.performance'
 import { Route as AppHodRouteImport } from './routes/app.hod'
 import { Route as AppExecutiveRouteImport } from './routes/app.executive'
 import { Route as AppEmployeeRouteImport } from './routes/app.employee'
@@ -58,6 +60,16 @@ const IndexRoute = IndexRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTasksRoute = AppTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPerformanceRoute = AppPerformanceRouteImport.update({
+  id: '/performance',
+  path: '/performance',
   getParentRoute: () => AppRoute,
 } as any)
 const AppHodRoute = AppHodRouteImport.update({
@@ -114,6 +126,8 @@ export interface FileRoutesByFullPath {
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
+  '/app/performance': typeof AppPerformanceRoute
+  '/app/tasks': typeof AppTasksRoute
   '/app/': typeof AppIndexRoute
   '/app/admin/users': typeof AppAdminUsersRoute
   '/app/departments/$slug': typeof AppDepartmentsSlugRoute
@@ -130,6 +144,8 @@ export interface FileRoutesByTo {
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
+  '/app/performance': typeof AppPerformanceRoute
+  '/app/tasks': typeof AppTasksRoute
   '/app': typeof AppIndexRoute
   '/app/admin/users': typeof AppAdminUsersRoute
   '/app/departments/$slug': typeof AppDepartmentsSlugRoute
@@ -148,6 +164,8 @@ export interface FileRoutesById {
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
+  '/app/performance': typeof AppPerformanceRoute
+  '/app/tasks': typeof AppTasksRoute
   '/app/': typeof AppIndexRoute
   '/app/admin/users': typeof AppAdminUsersRoute
   '/app/departments/$slug': typeof AppDepartmentsSlugRoute
@@ -167,6 +185,8 @@ export interface FileRouteTypes {
     | '/app/employee'
     | '/app/executive'
     | '/app/hod'
+    | '/app/performance'
+    | '/app/tasks'
     | '/app/'
     | '/app/admin/users'
     | '/app/departments/$slug'
@@ -183,6 +203,8 @@ export interface FileRouteTypes {
     | '/app/employee'
     | '/app/executive'
     | '/app/hod'
+    | '/app/performance'
+    | '/app/tasks'
     | '/app'
     | '/app/admin/users'
     | '/app/departments/$slug'
@@ -200,6 +222,8 @@ export interface FileRouteTypes {
     | '/app/employee'
     | '/app/executive'
     | '/app/hod'
+    | '/app/performance'
+    | '/app/tasks'
     | '/app/'
     | '/app/admin/users'
     | '/app/departments/$slug'
@@ -263,6 +287,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/tasks': {
+      id: '/app/tasks'
+      path: '/tasks'
+      fullPath: '/app/tasks'
+      preLoaderRoute: typeof AppTasksRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/performance': {
+      id: '/app/performance'
+      path: '/performance'
+      fullPath: '/app/performance'
+      preLoaderRoute: typeof AppPerformanceRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/hod': {
@@ -343,6 +381,8 @@ interface AppRouteChildren {
   AppEmployeeRoute: typeof AppEmployeeRoute
   AppExecutiveRoute: typeof AppExecutiveRoute
   AppHodRoute: typeof AppHodRoute
+  AppPerformanceRoute: typeof AppPerformanceRoute
+  AppTasksRoute: typeof AppTasksRoute
   AppIndexRoute: typeof AppIndexRoute
   AppAdminUsersRoute: typeof AppAdminUsersRoute
 }
@@ -354,6 +394,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppEmployeeRoute: AppEmployeeRoute,
   AppExecutiveRoute: AppExecutiveRoute,
   AppHodRoute: AppHodRoute,
+  AppPerformanceRoute: AppPerformanceRoute,
+  AppTasksRoute: AppTasksRoute,
   AppIndexRoute: AppIndexRoute,
   AppAdminUsersRoute: AppAdminUsersRoute,
 }
