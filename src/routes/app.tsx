@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tan
 import { useEffect, useState } from "react";
 import {
   LayoutDashboard, Users, BarChart3, ClipboardList, Brain, Bell, Search,
-  LogOut, Settings, ChevronLeft, Building2, ShieldCheck, Kanban, Trophy,
+  LogOut, Settings, ChevronLeft, Building2, ShieldCheck, Kanban, Trophy, Flame,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { useAuth } from "@/lib/auth-context";
@@ -21,6 +21,7 @@ const nav: { to: string; label: string; icon: typeof LayoutDashboard; roles: Rol
   { to: "/app/departments", label: "Departments", icon: Building2, roles: ["super_admin", "hod"] },
   { to: "/app/analytics", label: "Analytics", icon: BarChart3, roles: ["super_admin", "hod"] },
   { to: "/app/ai", label: "AI Assistant", icon: Brain, roles: ["super_admin", "hod", "team_lead", "employee"] },
+  { to: "/app/insights", label: "AI Insights", icon: Flame, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/admin/users", label: "User Management", icon: ShieldCheck, roles: ["super_admin"] },
 ];
 

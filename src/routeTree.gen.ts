@@ -18,12 +18,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppTasksRouteImport } from './routes/app.tasks'
 import { Route as AppPerformanceRouteImport } from './routes/app.performance'
+import { Route as AppInsightsRouteImport } from './routes/app.insights'
 import { Route as AppHodRouteImport } from './routes/app.hod'
 import { Route as AppExecutiveRouteImport } from './routes/app.executive'
 import { Route as AppEmployeeRouteImport } from './routes/app.employee'
 import { Route as AppDepartmentsRouteImport } from './routes/app.departments'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as AppAiRouteImport } from './routes/app.ai'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AppDepartmentsSlugRouteImport } from './routes/app.departments.$slug'
 import { Route as AppAdminUsersRouteImport } from './routes/app.admin.users'
 
@@ -72,6 +74,11 @@ const AppPerformanceRoute = AppPerformanceRouteImport.update({
   path: '/performance',
   getParentRoute: () => AppRoute,
 } as any)
+const AppInsightsRoute = AppInsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppHodRoute = AppHodRouteImport.update({
   id: '/hod',
   path: '/hod',
@@ -102,6 +109,11 @@ const AppAiRoute = AppAiRouteImport.update({
   path: '/ai',
   getParentRoute: () => AppRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppDepartmentsSlugRoute = AppDepartmentsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -120,12 +132,14 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/api/chat': typeof ApiChatRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
+  '/app/insights': typeof AppInsightsRoute
   '/app/performance': typeof AppPerformanceRoute
   '/app/tasks': typeof AppTasksRoute
   '/app/': typeof AppIndexRoute
@@ -138,12 +152,14 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/api/chat': typeof ApiChatRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
+  '/app/insights': typeof AppInsightsRoute
   '/app/performance': typeof AppPerformanceRoute
   '/app/tasks': typeof AppTasksRoute
   '/app': typeof AppIndexRoute
@@ -158,12 +174,14 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/api/chat': typeof ApiChatRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
+  '/app/insights': typeof AppInsightsRoute
   '/app/performance': typeof AppPerformanceRoute
   '/app/tasks': typeof AppTasksRoute
   '/app/': typeof AppIndexRoute
@@ -179,12 +197,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/reset-password'
     | '/signup'
+    | '/api/chat'
     | '/app/ai'
     | '/app/analytics'
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
     | '/app/hod'
+    | '/app/insights'
     | '/app/performance'
     | '/app/tasks'
     | '/app/'
@@ -197,12 +217,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/reset-password'
     | '/signup'
+    | '/api/chat'
     | '/app/ai'
     | '/app/analytics'
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
     | '/app/hod'
+    | '/app/insights'
     | '/app/performance'
     | '/app/tasks'
     | '/app'
@@ -216,12 +238,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/reset-password'
     | '/signup'
+    | '/api/chat'
     | '/app/ai'
     | '/app/analytics'
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
     | '/app/hod'
+    | '/app/insights'
     | '/app/performance'
     | '/app/tasks'
     | '/app/'
@@ -236,6 +260,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -303,6 +328,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPerformanceRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/insights': {
+      id: '/app/insights'
+      path: '/insights'
+      fullPath: '/app/insights'
+      preLoaderRoute: typeof AppInsightsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/hod': {
       id: '/app/hod'
       path: '/hod'
@@ -345,6 +377,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAiRouteImport
       parentRoute: typeof AppRoute
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/departments/$slug': {
       id: '/app/departments/$slug'
       path: '/$slug'
@@ -381,6 +420,7 @@ interface AppRouteChildren {
   AppEmployeeRoute: typeof AppEmployeeRoute
   AppExecutiveRoute: typeof AppExecutiveRoute
   AppHodRoute: typeof AppHodRoute
+  AppInsightsRoute: typeof AppInsightsRoute
   AppPerformanceRoute: typeof AppPerformanceRoute
   AppTasksRoute: typeof AppTasksRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -394,6 +434,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppEmployeeRoute: AppEmployeeRoute,
   AppExecutiveRoute: AppExecutiveRoute,
   AppHodRoute: AppHodRoute,
+  AppInsightsRoute: AppInsightsRoute,
   AppPerformanceRoute: AppPerformanceRoute,
   AppTasksRoute: AppTasksRoute,
   AppIndexRoute: AppIndexRoute,
@@ -409,6 +450,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
