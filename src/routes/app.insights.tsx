@@ -53,7 +53,7 @@ function InsightsPage() {
 
   const burnoutQuery = useQuery({
     queryKey: ["burnout-signals"],
-    queryFn: async () => detectBurnout({ data: {} }),
+    queryFn: async () => detectBurnout(),
     enabled: isManager,
   });
 
