@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppTasksRouteImport } from './routes/app.tasks'
 import { Route as AppPerformanceRouteImport } from './routes/app.performance'
+import { Route as AppInsightsRouteImport } from './routes/app.insights'
 import { Route as AppHodRouteImport } from './routes/app.hod'
 import { Route as AppExecutiveRouteImport } from './routes/app.executive'
 import { Route as AppEmployeeRouteImport } from './routes/app.employee'
@@ -71,6 +72,11 @@ const AppTasksRoute = AppTasksRouteImport.update({
 const AppPerformanceRoute = AppPerformanceRouteImport.update({
   id: '/performance',
   path: '/performance',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppInsightsRoute = AppInsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
   getParentRoute: () => AppRoute,
 } as any)
 const AppHodRoute = AppHodRouteImport.update({
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
+  '/app/insights': typeof AppInsightsRoute
   '/app/performance': typeof AppPerformanceRoute
   '/app/tasks': typeof AppTasksRoute
   '/app/': typeof AppIndexRoute
@@ -152,6 +159,7 @@ export interface FileRoutesByTo {
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
+  '/app/insights': typeof AppInsightsRoute
   '/app/performance': typeof AppPerformanceRoute
   '/app/tasks': typeof AppTasksRoute
   '/app': typeof AppIndexRoute
@@ -173,6 +181,7 @@ export interface FileRoutesById {
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
   '/app/hod': typeof AppHodRoute
+  '/app/insights': typeof AppInsightsRoute
   '/app/performance': typeof AppPerformanceRoute
   '/app/tasks': typeof AppTasksRoute
   '/app/': typeof AppIndexRoute
@@ -195,6 +204,7 @@ export interface FileRouteTypes {
     | '/app/employee'
     | '/app/executive'
     | '/app/hod'
+    | '/app/insights'
     | '/app/performance'
     | '/app/tasks'
     | '/app/'
@@ -214,6 +224,7 @@ export interface FileRouteTypes {
     | '/app/employee'
     | '/app/executive'
     | '/app/hod'
+    | '/app/insights'
     | '/app/performance'
     | '/app/tasks'
     | '/app'
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '/app/employee'
     | '/app/executive'
     | '/app/hod'
+    | '/app/insights'
     | '/app/performance'
     | '/app/tasks'
     | '/app/'
@@ -314,6 +326,13 @@ declare module '@tanstack/react-router' {
       path: '/performance'
       fullPath: '/app/performance'
       preLoaderRoute: typeof AppPerformanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/insights': {
+      id: '/app/insights'
+      path: '/insights'
+      fullPath: '/app/insights'
+      preLoaderRoute: typeof AppInsightsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/hod': {
@@ -401,6 +420,7 @@ interface AppRouteChildren {
   AppEmployeeRoute: typeof AppEmployeeRoute
   AppExecutiveRoute: typeof AppExecutiveRoute
   AppHodRoute: typeof AppHodRoute
+  AppInsightsRoute: typeof AppInsightsRoute
   AppPerformanceRoute: typeof AppPerformanceRoute
   AppTasksRoute: typeof AppTasksRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -414,6 +434,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppEmployeeRoute: AppEmployeeRoute,
   AppExecutiveRoute: AppExecutiveRoute,
   AppHodRoute: AppHodRoute,
+  AppInsightsRoute: AppInsightsRoute,
   AppPerformanceRoute: AppPerformanceRoute,
   AppTasksRoute: AppTasksRoute,
   AppIndexRoute: AppIndexRoute,
