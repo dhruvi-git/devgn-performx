@@ -24,6 +24,7 @@ import { Route as AppEmployeeRouteImport } from './routes/app.employee'
 import { Route as AppDepartmentsRouteImport } from './routes/app.departments'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as AppAiRouteImport } from './routes/app.ai'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AppDepartmentsSlugRouteImport } from './routes/app.departments.$slug'
 import { Route as AppAdminUsersRouteImport } from './routes/app.admin.users'
 
@@ -102,6 +103,11 @@ const AppAiRoute = AppAiRouteImport.update({
   path: '/ai',
   getParentRoute: () => AppRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppDepartmentsSlugRoute = AppDepartmentsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/api/chat': typeof ApiChatRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/departments': typeof AppDepartmentsRouteWithChildren
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/api/chat': typeof ApiChatRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/departments': typeof AppDepartmentsRouteWithChildren
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/api/chat': typeof ApiChatRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/departments': typeof AppDepartmentsRouteWithChildren
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/reset-password'
     | '/signup'
+    | '/api/chat'
     | '/app/ai'
     | '/app/analytics'
     | '/app/departments'
@@ -197,6 +207,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/reset-password'
     | '/signup'
+    | '/api/chat'
     | '/app/ai'
     | '/app/analytics'
     | '/app/departments'
@@ -216,6 +227,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/reset-password'
     | '/signup'
+    | '/api/chat'
     | '/app/ai'
     | '/app/analytics'
     | '/app/departments'
@@ -236,6 +248,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -345,6 +358,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAiRouteImport
       parentRoute: typeof AppRoute
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/departments/$slug': {
       id: '/app/departments/$slug'
       path: '/$slug'
@@ -409,7 +429,18 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
