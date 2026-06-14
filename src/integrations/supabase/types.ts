@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      attendance: {
+        Row: {
+          check_in: string | null
+          check_out: string | null
+          created_at: string
+          hours_worked: number | null
+          id: string
+          notes: string | null
+          status: Database["public"]["Enums"]["attendance_status"]
+          updated_at: string
+          user_id: string
+          work_date: string
+        }
+        Insert: {
+          check_in?: string | null
+          check_out?: string | null
+          created_at?: string
+          hours_worked?: number | null
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["attendance_status"]
+          updated_at?: string
+          user_id: string
+          work_date?: string
+        }
+        Update: {
+          check_in?: string | null
+          check_out?: string | null
+          created_at?: string
+          hours_worked?: number | null
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["attendance_status"]
+          updated_at?: string
+          user_id?: string
+          work_date?: string
+        }
+        Relationships: []
+      }
       departments: {
         Row: {
           created_at: string
@@ -44,6 +83,39 @@ export type Database = {
           name?: string
           slug?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          link: string | null
+          read_at: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          type?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -333,6 +405,7 @@ export type Database = {
     }
     Enums: {
       app_role: "super_admin" | "hod" | "team_lead" | "employee"
+      attendance_status: "present" | "late" | "absent" | "remote" | "leave"
       task_priority: "low" | "medium" | "high" | "critical"
       task_status: "todo" | "in_progress" | "review" | "done"
     }
@@ -463,6 +536,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["super_admin", "hod", "team_lead", "employee"],
+      attendance_status: ["present", "late", "absent", "remote", "leave"],
       task_priority: ["low", "medium", "high", "critical"],
       task_status: ["todo", "in_progress", "review", "done"],
     },
