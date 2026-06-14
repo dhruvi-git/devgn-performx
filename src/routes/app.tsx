@@ -1,12 +1,13 @@
 import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
-  LayoutDashboard, Users, BarChart3, ClipboardList, Brain, Bell, Search,
-  LogOut, Settings, ChevronLeft, Building2, ShieldCheck, Kanban, Trophy, Flame,
+  LayoutDashboard, Users, BarChart3, ClipboardList, Brain, Search,
+  LogOut, Settings, ChevronLeft, Building2, ShieldCheck, Kanban, Trophy, Flame, Clock,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { useAuth } from "@/lib/auth-context";
 import { roleLabels, signOut, type Role } from "@/lib/auth";
+import { NotificationsBell } from "@/components/app/NotificationsBell";
 
 export const Route = createFileRoute("/app")({
   component: AppLayout,
@@ -18,6 +19,7 @@ const nav: { to: string; label: string; icon: typeof LayoutDashboard; roles: Rol
   { to: "/app/employee", label: "My Workspace", icon: ClipboardList, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/tasks", label: "Task Board", icon: Kanban, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/performance", label: "Performance", icon: Trophy, roles: ["super_admin", "hod", "team_lead", "employee"] },
+  { to: "/app/attendance", label: "Attendance", icon: Clock, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/departments", label: "Departments", icon: Building2, roles: ["super_admin", "hod"] },
   { to: "/app/analytics", label: "Analytics", icon: BarChart3, roles: ["super_admin", "hod"] },
   { to: "/app/ai", label: "AI Assistant", icon: Brain, roles: ["super_admin", "hod", "team_lead", "employee"] },
@@ -99,10 +101,7 @@ function AppLayout() {
             />
           </div>
           <div className="flex items-center gap-4">
-            <button className="relative size-9 rounded-lg glass flex items-center justify-center hover:border-gold/40 transition">
-              <Bell className="size-4 text-muted-foreground" />
-              <span className="absolute top-2 right-2 size-1.5 rounded-full bg-gold" />
-            </button>
+            <NotificationsBell />
             <button className="size-9 rounded-lg glass flex items-center justify-center hover:border-gold/40 transition">
               <Settings className="size-4 text-muted-foreground" />
             </button>
