@@ -23,6 +23,7 @@ import { Route as AppHodRouteImport } from './routes/app.hod'
 import { Route as AppExecutiveRouteImport } from './routes/app.executive'
 import { Route as AppEmployeeRouteImport } from './routes/app.employee'
 import { Route as AppDepartmentsRouteImport } from './routes/app.departments'
+import { Route as AppAttendanceRouteImport } from './routes/app.attendance'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as AppAiRouteImport } from './routes/app.ai'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -99,6 +100,11 @@ const AppDepartmentsRoute = AppDepartmentsRouteImport.update({
   path: '/departments',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAttendanceRoute = AppAttendanceRouteImport.update({
+  id: '/attendance',
+  path: '/attendance',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/attendance': typeof AppAttendanceRoute
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/attendance': typeof AppAttendanceRoute
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/app/ai': typeof AppAiRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/attendance': typeof AppAttendanceRoute
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/app/ai'
     | '/app/analytics'
+    | '/app/attendance'
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/app/ai'
     | '/app/analytics'
+    | '/app/attendance'
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/app/ai'
     | '/app/analytics'
+    | '/app/attendance'
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
@@ -363,6 +375,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDepartmentsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/attendance': {
+      id: '/app/attendance'
+      path: '/attendance'
+      fullPath: '/app/attendance'
+      preLoaderRoute: typeof AppAttendanceRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/analytics': {
       id: '/app/analytics'
       path: '/analytics'
@@ -416,6 +435,7 @@ const AppDepartmentsRouteWithChildren = AppDepartmentsRoute._addFileChildren(
 interface AppRouteChildren {
   AppAiRoute: typeof AppAiRoute
   AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppAttendanceRoute: typeof AppAttendanceRoute
   AppDepartmentsRoute: typeof AppDepartmentsRouteWithChildren
   AppEmployeeRoute: typeof AppEmployeeRoute
   AppExecutiveRoute: typeof AppExecutiveRoute
@@ -430,6 +450,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAiRoute: AppAiRoute,
   AppAnalyticsRoute: AppAnalyticsRoute,
+  AppAttendanceRoute: AppAttendanceRoute,
   AppDepartmentsRoute: AppDepartmentsRouteWithChildren,
   AppEmployeeRoute: AppEmployeeRoute,
   AppExecutiveRoute: AppExecutiveRoute,
@@ -455,3 +476,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
