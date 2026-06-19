@@ -86,6 +86,171 @@ export type Database = {
         }
         Relationships: []
       }
+      goal_updates: {
+        Row: {
+          author_id: string | null
+          created_at: string
+          goal_id: string
+          id: string
+          note: string
+          progress_snapshot: number | null
+        }
+        Insert: {
+          author_id?: string | null
+          created_at?: string
+          goal_id: string
+          id?: string
+          note: string
+          progress_snapshot?: number | null
+        }
+        Update: {
+          author_id?: string | null
+          created_at?: string
+          goal_id?: string
+          id?: string
+          note?: string
+          progress_snapshot?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goal_updates_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "goal_updates_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      goals: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          department_id: string | null
+          description: string | null
+          id: string
+          owner_id: string | null
+          progress: number
+          quarter: number
+          status: Database["public"]["Enums"]["goal_status"]
+          title: string
+          updated_at: string
+          weight: number
+          year: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          description?: string | null
+          id?: string
+          owner_id?: string | null
+          progress?: number
+          quarter: number
+          status?: Database["public"]["Enums"]["goal_status"]
+          title: string
+          updated_at?: string
+          weight?: number
+          year: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          department_id?: string | null
+          description?: string | null
+          id?: string
+          owner_id?: string | null
+          progress?: number
+          quarter?: number
+          status?: Database["public"]["Enums"]["goal_status"]
+          title?: string
+          updated_at?: string
+          weight?: number
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goals_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "goals_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "goals_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      key_results: {
+        Row: {
+          created_at: string
+          current_value: number
+          due_date: string | null
+          goal_id: string
+          id: string
+          metric_type: Database["public"]["Enums"]["kr_metric_type"]
+          progress: number
+          start_value: number
+          status: Database["public"]["Enums"]["goal_status"]
+          target_value: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_value?: number
+          due_date?: string | null
+          goal_id: string
+          id?: string
+          metric_type?: Database["public"]["Enums"]["kr_metric_type"]
+          progress?: number
+          start_value?: number
+          status?: Database["public"]["Enums"]["goal_status"]
+          target_value?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_value?: number
+          due_date?: string | null
+          goal_id?: string
+          id?: string
+          metric_type?: Database["public"]["Enums"]["kr_metric_type"]
+          progress?: number
+          start_value?: number
+          status?: Database["public"]["Enums"]["goal_status"]
+          target_value?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "key_results_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           body: string | null
@@ -406,6 +571,8 @@ export type Database = {
     Enums: {
       app_role: "super_admin" | "hod" | "team_lead" | "employee"
       attendance_status: "present" | "late" | "absent" | "remote" | "leave"
+      goal_status: "draft" | "active" | "at_risk" | "completed" | "cancelled"
+      kr_metric_type: "number" | "percent" | "boolean" | "currency"
       task_priority: "low" | "medium" | "high" | "critical"
       task_status: "todo" | "in_progress" | "review" | "done"
     }
@@ -537,6 +704,8 @@ export const Constants = {
     Enums: {
       app_role: ["super_admin", "hod", "team_lead", "employee"],
       attendance_status: ["present", "late", "absent", "remote", "leave"],
+      goal_status: ["draft", "active", "at_risk", "completed", "cancelled"],
+      kr_metric_type: ["number", "percent", "boolean", "currency"],
       task_priority: ["low", "medium", "high", "critical"],
       task_status: ["todo", "in_progress", "review", "done"],
     },
