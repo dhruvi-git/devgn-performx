@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tan
 import { useEffect, useState } from "react";
 import {
   LayoutDashboard, Users, BarChart3, ClipboardList, Brain, Search,
-  LogOut, Settings, ChevronLeft, Building2, ShieldCheck, Kanban, Trophy, Flame, Clock,
+  LogOut, Settings, ChevronLeft, Building2, ShieldCheck, Kanban, Trophy, Flame, Clock, Target,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { useAuth } from "@/lib/auth-context";
@@ -18,6 +18,7 @@ const nav: { to: string; label: string; icon: typeof LayoutDashboard; roles: Rol
   { to: "/app/hod", label: "HOD Center", icon: Users, roles: ["super_admin", "hod", "team_lead"] },
   { to: "/app/employee", label: "My Workspace", icon: ClipboardList, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/tasks", label: "Task Board", icon: Kanban, roles: ["super_admin", "hod", "team_lead", "employee"] },
+  { to: "/app/goals", label: "Goals & OKRs", icon: Target, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/performance", label: "Performance", icon: Trophy, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/attendance", label: "Attendance", icon: Clock, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/departments", label: "Departments", icon: Building2, roles: ["super_admin", "hod"] },
@@ -26,6 +27,7 @@ const nav: { to: string; label: string; icon: typeof LayoutDashboard; roles: Rol
   { to: "/app/insights", label: "AI Insights", icon: Flame, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/admin/users", label: "User Management", icon: ShieldCheck, roles: ["super_admin"] },
 ];
+
 
 function AppLayout() {
   const navigate = useNavigate();

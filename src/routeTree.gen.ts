@@ -20,6 +20,7 @@ import { Route as AppTasksRouteImport } from './routes/app.tasks'
 import { Route as AppPerformanceRouteImport } from './routes/app.performance'
 import { Route as AppInsightsRouteImport } from './routes/app.insights'
 import { Route as AppHodRouteImport } from './routes/app.hod'
+import { Route as AppGoalsRouteImport } from './routes/app.goals'
 import { Route as AppExecutiveRouteImport } from './routes/app.executive'
 import { Route as AppEmployeeRouteImport } from './routes/app.employee'
 import { Route as AppDepartmentsRouteImport } from './routes/app.departments'
@@ -85,6 +86,11 @@ const AppHodRoute = AppHodRouteImport.update({
   path: '/hod',
   getParentRoute: () => AppRoute,
 } as any)
+const AppGoalsRoute = AppGoalsRouteImport.update({
+  id: '/goals',
+  path: '/goals',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppExecutiveRoute = AppExecutiveRouteImport.update({
   id: '/executive',
   path: '/executive',
@@ -145,6 +151,7 @@ export interface FileRoutesByFullPath {
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
+  '/app/goals': typeof AppGoalsRoute
   '/app/hod': typeof AppHodRoute
   '/app/insights': typeof AppInsightsRoute
   '/app/performance': typeof AppPerformanceRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
+  '/app/goals': typeof AppGoalsRoute
   '/app/hod': typeof AppHodRoute
   '/app/insights': typeof AppInsightsRoute
   '/app/performance': typeof AppPerformanceRoute
@@ -189,6 +197,7 @@ export interface FileRoutesById {
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
+  '/app/goals': typeof AppGoalsRoute
   '/app/hod': typeof AppHodRoute
   '/app/insights': typeof AppInsightsRoute
   '/app/performance': typeof AppPerformanceRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
+    | '/app/goals'
     | '/app/hod'
     | '/app/insights'
     | '/app/performance'
@@ -234,6 +244,7 @@ export interface FileRouteTypes {
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
+    | '/app/goals'
     | '/app/hod'
     | '/app/insights'
     | '/app/performance'
@@ -256,6 +267,7 @@ export interface FileRouteTypes {
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
+    | '/app/goals'
     | '/app/hod'
     | '/app/insights'
     | '/app/performance'
@@ -354,6 +366,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHodRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/goals': {
+      id: '/app/goals'
+      path: '/goals'
+      fullPath: '/app/goals'
+      preLoaderRoute: typeof AppGoalsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/executive': {
       id: '/app/executive'
       path: '/executive'
@@ -439,6 +458,7 @@ interface AppRouteChildren {
   AppDepartmentsRoute: typeof AppDepartmentsRouteWithChildren
   AppEmployeeRoute: typeof AppEmployeeRoute
   AppExecutiveRoute: typeof AppExecutiveRoute
+  AppGoalsRoute: typeof AppGoalsRoute
   AppHodRoute: typeof AppHodRoute
   AppInsightsRoute: typeof AppInsightsRoute
   AppPerformanceRoute: typeof AppPerformanceRoute
@@ -454,6 +474,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDepartmentsRoute: AppDepartmentsRouteWithChildren,
   AppEmployeeRoute: AppEmployeeRoute,
   AppExecutiveRoute: AppExecutiveRoute,
+  AppGoalsRoute: AppGoalsRoute,
   AppHodRoute: AppHodRoute,
   AppInsightsRoute: AppInsightsRoute,
   AppPerformanceRoute: AppPerformanceRoute,
@@ -476,13 +497,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
