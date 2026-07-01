@@ -120,6 +120,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "goal_updates_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "goal_updates_goal_id_fkey"
             columns: ["goal_id"]
             isOneToOne: false
@@ -183,6 +190,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "goals_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "goals_department_id_fkey"
             columns: ["department_id"]
             isOneToOne: false
@@ -194,6 +208,13 @@ export type Database = {
             columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "goals_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
             referencedColumns: ["id"]
           },
         ]
@@ -247,6 +268,136 @@ export type Database = {
             columns: ["goal_id"]
             isOneToOne: false
             referencedRelation: "goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kudos: {
+        Row: {
+          category: Database["public"]["Enums"]["kudos_category"]
+          created_at: string
+          giver_id: string
+          id: string
+          message: string
+          receiver_id: string
+        }
+        Insert: {
+          category?: Database["public"]["Enums"]["kudos_category"]
+          created_at?: string
+          giver_id: string
+          id?: string
+          message: string
+          receiver_id: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["kudos_category"]
+          created_at?: string
+          giver_id?: string
+          id?: string
+          message?: string
+          receiver_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kudos_giver_id_fkey"
+            columns: ["giver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kudos_giver_id_fkey"
+            columns: ["giver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kudos_receiver_id_fkey"
+            columns: ["receiver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kudos_receiver_id_fkey"
+            columns: ["receiver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leave_requests: {
+        Row: {
+          approver_id: string | null
+          approver_notes: string | null
+          created_at: string
+          decided_at: string | null
+          end_date: string
+          id: string
+          leave_type: Database["public"]["Enums"]["leave_type"]
+          reason: string | null
+          start_date: string
+          status: Database["public"]["Enums"]["leave_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          approver_id?: string | null
+          approver_notes?: string | null
+          created_at?: string
+          decided_at?: string | null
+          end_date: string
+          id?: string
+          leave_type: Database["public"]["Enums"]["leave_type"]
+          reason?: string | null
+          start_date: string
+          status?: Database["public"]["Enums"]["leave_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          approver_id?: string | null
+          approver_notes?: string | null
+          created_at?: string
+          decided_at?: string | null
+          end_date?: string
+          id?: string
+          leave_type?: Database["public"]["Enums"]["leave_type"]
+          reason?: string | null
+          start_date?: string
+          status?: Database["public"]["Enums"]["leave_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leave_requests_approver_id_fkey"
+            columns: ["approver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leave_requests_approver_id_fkey"
+            columns: ["approver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leave_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leave_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
             referencedColumns: ["id"]
           },
         ]
@@ -335,6 +486,13 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "performance_scores_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
+            referencedColumns: ["id"]
+          },
         ]
       }
       profiles: {
@@ -392,6 +550,13 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "profiles_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
+            referencedColumns: ["id"]
+          },
         ]
       }
       task_comments: {
@@ -422,6 +587,13 @@ export type Database = {
             columns: ["author_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_comments_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
             referencedColumns: ["id"]
           },
           {
@@ -494,10 +666,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "tasks_assignee_id_fkey"
+            columns: ["assignee_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "tasks_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles_directory"
             referencedColumns: ["id"]
           },
           {
@@ -532,7 +718,38 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      profiles_directory: {
+        Row: {
+          avatar_url: string | null
+          department_id: string | null
+          full_name: string | null
+          id: string | null
+          job_title: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          department_id?: string | null
+          full_name?: string | null
+          id?: string | null
+          job_title?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          department_id?: string | null
+          full_name?: string | null
+          id?: string | null
+          job_title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       has_role: {
@@ -573,6 +790,14 @@ export type Database = {
       attendance_status: "present" | "late" | "absent" | "remote" | "leave"
       goal_status: "draft" | "active" | "at_risk" | "completed" | "cancelled"
       kr_metric_type: "number" | "percent" | "boolean" | "currency"
+      kudos_category:
+        | "teamwork"
+        | "innovation"
+        | "excellence"
+        | "leadership"
+        | "customer_focus"
+      leave_status: "pending" | "approved" | "rejected" | "cancelled"
+      leave_type: "vacation" | "sick" | "personal" | "bereavement" | "other"
       task_priority: "low" | "medium" | "high" | "critical"
       task_status: "todo" | "in_progress" | "review" | "done"
     }
@@ -706,6 +931,15 @@ export const Constants = {
       attendance_status: ["present", "late", "absent", "remote", "leave"],
       goal_status: ["draft", "active", "at_risk", "completed", "cancelled"],
       kr_metric_type: ["number", "percent", "boolean", "currency"],
+      kudos_category: [
+        "teamwork",
+        "innovation",
+        "excellence",
+        "leadership",
+        "customer_focus",
+      ],
+      leave_status: ["pending", "approved", "rejected", "cancelled"],
+      leave_type: ["vacation", "sick", "personal", "bereavement", "other"],
       task_priority: ["low", "medium", "high", "critical"],
       task_status: ["todo", "in_progress", "review", "done"],
     },

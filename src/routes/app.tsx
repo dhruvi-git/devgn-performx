@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   LayoutDashboard, Users, BarChart3, ClipboardList, Brain, Search,
   LogOut, Settings, ChevronLeft, Building2, ShieldCheck, Kanban, Trophy, Flame, Clock, Target,
+  Award, Plane,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { useAuth } from "@/lib/auth-context";
@@ -21,6 +22,8 @@ const nav: { to: string; label: string; icon: typeof LayoutDashboard; roles: Rol
   { to: "/app/goals", label: "Goals & OKRs", icon: Target, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/performance", label: "Performance", icon: Trophy, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/attendance", label: "Attendance", icon: Clock, roles: ["super_admin", "hod", "team_lead", "employee"] },
+  { to: "/app/leave", label: "Leave", icon: Plane, roles: ["super_admin", "hod", "team_lead", "employee"] },
+  { to: "/app/feedback", label: "Recognition", icon: Award, roles: ["super_admin", "hod", "team_lead", "employee"] },
   { to: "/app/departments", label: "Departments", icon: Building2, roles: ["super_admin", "hod"] },
   { to: "/app/analytics", label: "Analytics", icon: BarChart3, roles: ["super_admin", "hod"] },
   { to: "/app/ai", label: "AI Assistant", icon: Brain, roles: ["super_admin", "hod", "team_lead", "employee"] },
@@ -104,9 +107,13 @@ function AppLayout() {
           </div>
           <div className="flex items-center gap-4">
             <NotificationsBell />
-            <button className="size-9 rounded-lg glass flex items-center justify-center hover:border-gold/40 transition">
+            <Link
+              to="/app/settings"
+              className="size-9 rounded-lg glass flex items-center justify-center hover:border-gold/40 transition"
+              title="Settings"
+            >
               <Settings className="size-4 text-muted-foreground" />
-            </button>
+            </Link>
             <div className="flex items-center gap-3 pl-4 border-l border-gold/15">
               <div className="text-right hidden sm:block">
                 <div className="text-sm text-foreground">{displayName}</div>

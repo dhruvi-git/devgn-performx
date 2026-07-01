@@ -17,10 +17,13 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppTasksRouteImport } from './routes/app.tasks'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppPerformanceRouteImport } from './routes/app.performance'
+import { Route as AppLeaveRouteImport } from './routes/app.leave'
 import { Route as AppInsightsRouteImport } from './routes/app.insights'
 import { Route as AppHodRouteImport } from './routes/app.hod'
 import { Route as AppGoalsRouteImport } from './routes/app.goals'
+import { Route as AppFeedbackRouteImport } from './routes/app.feedback'
 import { Route as AppExecutiveRouteImport } from './routes/app.executive'
 import { Route as AppEmployeeRouteImport } from './routes/app.employee'
 import { Route as AppDepartmentsRouteImport } from './routes/app.departments'
@@ -71,9 +74,19 @@ const AppTasksRoute = AppTasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPerformanceRoute = AppPerformanceRouteImport.update({
   id: '/performance',
   path: '/performance',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLeaveRoute = AppLeaveRouteImport.update({
+  id: '/leave',
+  path: '/leave',
   getParentRoute: () => AppRoute,
 } as any)
 const AppInsightsRoute = AppInsightsRouteImport.update({
@@ -89,6 +102,11 @@ const AppHodRoute = AppHodRouteImport.update({
 const AppGoalsRoute = AppGoalsRouteImport.update({
   id: '/goals',
   path: '/goals',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFeedbackRoute = AppFeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
   getParentRoute: () => AppRoute,
 } as any)
 const AppExecutiveRoute = AppExecutiveRouteImport.update({
@@ -151,10 +169,13 @@ export interface FileRoutesByFullPath {
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
+  '/app/feedback': typeof AppFeedbackRoute
   '/app/goals': typeof AppGoalsRoute
   '/app/hod': typeof AppHodRoute
   '/app/insights': typeof AppInsightsRoute
+  '/app/leave': typeof AppLeaveRoute
   '/app/performance': typeof AppPerformanceRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/tasks': typeof AppTasksRoute
   '/app/': typeof AppIndexRoute
   '/app/admin/users': typeof AppAdminUsersRoute
@@ -173,10 +194,13 @@ export interface FileRoutesByTo {
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
+  '/app/feedback': typeof AppFeedbackRoute
   '/app/goals': typeof AppGoalsRoute
   '/app/hod': typeof AppHodRoute
   '/app/insights': typeof AppInsightsRoute
+  '/app/leave': typeof AppLeaveRoute
   '/app/performance': typeof AppPerformanceRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/tasks': typeof AppTasksRoute
   '/app': typeof AppIndexRoute
   '/app/admin/users': typeof AppAdminUsersRoute
@@ -197,10 +221,13 @@ export interface FileRoutesById {
   '/app/departments': typeof AppDepartmentsRouteWithChildren
   '/app/employee': typeof AppEmployeeRoute
   '/app/executive': typeof AppExecutiveRoute
+  '/app/feedback': typeof AppFeedbackRoute
   '/app/goals': typeof AppGoalsRoute
   '/app/hod': typeof AppHodRoute
   '/app/insights': typeof AppInsightsRoute
+  '/app/leave': typeof AppLeaveRoute
   '/app/performance': typeof AppPerformanceRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/tasks': typeof AppTasksRoute
   '/app/': typeof AppIndexRoute
   '/app/admin/users': typeof AppAdminUsersRoute
@@ -222,10 +249,13 @@ export interface FileRouteTypes {
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
+    | '/app/feedback'
     | '/app/goals'
     | '/app/hod'
     | '/app/insights'
+    | '/app/leave'
     | '/app/performance'
+    | '/app/settings'
     | '/app/tasks'
     | '/app/'
     | '/app/admin/users'
@@ -244,10 +274,13 @@ export interface FileRouteTypes {
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
+    | '/app/feedback'
     | '/app/goals'
     | '/app/hod'
     | '/app/insights'
+    | '/app/leave'
     | '/app/performance'
+    | '/app/settings'
     | '/app/tasks'
     | '/app'
     | '/app/admin/users'
@@ -267,10 +300,13 @@ export interface FileRouteTypes {
     | '/app/departments'
     | '/app/employee'
     | '/app/executive'
+    | '/app/feedback'
     | '/app/goals'
     | '/app/hod'
     | '/app/insights'
+    | '/app/leave'
     | '/app/performance'
+    | '/app/settings'
     | '/app/tasks'
     | '/app/'
     | '/app/admin/users'
@@ -345,11 +381,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTasksRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/performance': {
       id: '/app/performance'
       path: '/performance'
       fullPath: '/app/performance'
       preLoaderRoute: typeof AppPerformanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/leave': {
+      id: '/app/leave'
+      path: '/leave'
+      fullPath: '/app/leave'
+      preLoaderRoute: typeof AppLeaveRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/insights': {
@@ -371,6 +421,13 @@ declare module '@tanstack/react-router' {
       path: '/goals'
       fullPath: '/app/goals'
       preLoaderRoute: typeof AppGoalsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/feedback': {
+      id: '/app/feedback'
+      path: '/feedback'
+      fullPath: '/app/feedback'
+      preLoaderRoute: typeof AppFeedbackRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/executive': {
@@ -458,10 +515,13 @@ interface AppRouteChildren {
   AppDepartmentsRoute: typeof AppDepartmentsRouteWithChildren
   AppEmployeeRoute: typeof AppEmployeeRoute
   AppExecutiveRoute: typeof AppExecutiveRoute
+  AppFeedbackRoute: typeof AppFeedbackRoute
   AppGoalsRoute: typeof AppGoalsRoute
   AppHodRoute: typeof AppHodRoute
   AppInsightsRoute: typeof AppInsightsRoute
+  AppLeaveRoute: typeof AppLeaveRoute
   AppPerformanceRoute: typeof AppPerformanceRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppTasksRoute: typeof AppTasksRoute
   AppIndexRoute: typeof AppIndexRoute
   AppAdminUsersRoute: typeof AppAdminUsersRoute
@@ -474,10 +534,13 @@ const AppRouteChildren: AppRouteChildren = {
   AppDepartmentsRoute: AppDepartmentsRouteWithChildren,
   AppEmployeeRoute: AppEmployeeRoute,
   AppExecutiveRoute: AppExecutiveRoute,
+  AppFeedbackRoute: AppFeedbackRoute,
   AppGoalsRoute: AppGoalsRoute,
   AppHodRoute: AppHodRoute,
   AppInsightsRoute: AppInsightsRoute,
+  AppLeaveRoute: AppLeaveRoute,
   AppPerformanceRoute: AppPerformanceRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppTasksRoute: AppTasksRoute,
   AppIndexRoute: AppIndexRoute,
   AppAdminUsersRoute: AppAdminUsersRoute,
