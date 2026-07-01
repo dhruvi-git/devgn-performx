@@ -107,8 +107,13 @@ function AppLayout() {
           </div>
           <div className="flex items-center gap-4">
             <NotificationsBell />
-            <button className="size-9 rounded-lg glass flex items-center justify-center hover:border-gold/40 transition">
+            <Link
+              to="/app/settings"
+              className="size-9 rounded-lg glass flex items-center justify-center hover:border-gold/40 transition"
+              title="Settings"
+            >
               <Settings className="size-4 text-muted-foreground" />
+            </Link>
             </button>
             <div className="flex items-center gap-3 pl-4 border-l border-gold/15">
               <div className="text-right hidden sm:block">
