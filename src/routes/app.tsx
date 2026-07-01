@@ -114,7 +114,6 @@ function AppLayout() {
             >
               <Settings className="size-4 text-muted-foreground" />
             </Link>
-            </button>
             <div className="flex items-center gap-3 pl-4 border-l border-gold/15">
               <div className="text-right hidden sm:block">
                 <div className="text-sm text-foreground">{displayName}</div>
