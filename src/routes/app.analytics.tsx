@@ -3,11 +3,16 @@ import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip,
 } from "recharts";
 import { PageHeader, Panel } from "@/components/app/Panels";
+import { RoleGate } from "@/components/app/RoleGate";
 import { monthlyTrend, departmentScores, revenueTrend } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/app/analytics")({
   head: () => ({ meta: [{ title: "Analytics · PerformX" }] }),
-  component: Analytics,
+  component: () => (
+    <RoleGate allow={["super_admin", "hod"]} area="Analytics">
+      <Analytics />
+    </RoleGate>
+  ),
 });
 
 function Analytics() {
