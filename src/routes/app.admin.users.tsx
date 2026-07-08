@@ -93,7 +93,7 @@ function AdminUsers() {
 
   const [open, setOpen] = useState(false);
 
-  if (role !== "super_admin") return null;
+
 
   return (
     <div className="p-8">
