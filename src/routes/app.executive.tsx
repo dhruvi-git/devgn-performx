@@ -6,11 +6,16 @@ import {
 } from "recharts";
 import { Activity, Brain, TrendingUp, Users, Sparkles, Download } from "lucide-react";
 import { PageHeader, KpiCard, Panel } from "@/components/app/Panels";
+import { RoleGate } from "@/components/app/RoleGate";
 import { monthlyTrend, departmentScores, revenueTrend, employeeDistribution, aiInsights, topPerformers } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/app/executive")({
   head: () => ({ meta: [{ title: "Executive Dashboard · PerformX" }] }),
-  component: Executive,
+  component: () => (
+    <RoleGate allow={["super_admin"]} area="Executive Command">
+      <Executive />
+    </RoleGate>
+  ),
 });
 
 const COLORS = ["#D4AF37", "#E8C66B", "#9A7B22", "#B89030", "#6B5418"];

@@ -4,11 +4,16 @@ import {
 } from "recharts";
 import { CheckCircle2, Clock, Users, TrendingUp, Bell } from "lucide-react";
 import { PageHeader, KpiCard, Panel } from "@/components/app/Panels";
+import { RoleGate } from "@/components/app/RoleGate";
 import { monthlyTrend, topPerformers, tasks } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/app/hod")({
   head: () => ({ meta: [{ title: "HOD Dashboard · PerformX" }] }),
-  component: HOD,
+  component: () => (
+    <RoleGate allow={["super_admin", "hod", "team_lead"]} area="HOD Center">
+      <HOD />
+    </RoleGate>
+  ),
 });
 
 function HOD() {

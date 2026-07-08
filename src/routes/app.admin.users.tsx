@@ -1,18 +1,22 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Loader2, UserPlus, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader, Panel } from "@/components/app/Panels";
+import { RoleGate } from "@/components/app/RoleGate";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/lib/auth-context";
 import { roleLabels, type Role } from "@/lib/auth";
 import { inviteUser, setUserRole, assignDepartment } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/app/admin/users")({
   head: () => ({ meta: [{ title: "User Management · PerformX" }] }),
-  component: AdminUsers,
+  component: () => (
+    <RoleGate allow={["super_admin"]} area="User Management">
+      <AdminUsers />
+    </RoleGate>
+  ),
 });
 
 type Row = {
@@ -27,18 +31,10 @@ type Row = {
 const ROLES: Role[] = ["super_admin", "hod", "team_lead", "employee"];
 
 function AdminUsers() {
-  const { role, status } = useAuth();
-  const navigate = useNavigate();
   const qc = useQueryClient();
   const invite = useServerFn(inviteUser);
   const setRole = useServerFn(setUserRole);
   const setDept = useServerFn(assignDepartment);
-
-  useEffect(() => {
-    if (status === "authenticated" && role !== "super_admin") {
-      navigate({ to: "/app", replace: true });
-    }
-  }, [role, status, navigate]);
 
   const { data: depts } = useQuery({
     queryKey: ["departments-lite"],
@@ -97,7 +93,7 @@ function AdminUsers() {
 
   const [open, setOpen] = useState(false);
 
-  if (role !== "super_admin") return null;
+
 
   return (
     <div className="p-8">

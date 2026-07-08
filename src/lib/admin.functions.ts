@@ -1,11 +1,16 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 const ROLES = ["super_admin", "hod", "team_lead", "employee"] as const;
 
+async function loadAdmin() {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  return supabaseAdmin;
+}
+
 async function assertAdmin(userId: string) {
+  const supabaseAdmin = await loadAdmin();
   const { data, error } = await supabaseAdmin
     .from("user_roles")
     .select("role")
@@ -31,6 +36,7 @@ export const inviteUser = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await assertAdmin(context.userId);
+    const supabaseAdmin = await loadAdmin();
 
     const { data: invited, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(
       data.email,
@@ -49,7 +55,6 @@ export const inviteUser = createServerFn({ method: "POST" })
       .eq("id", newId);
 
     if (data.role !== "employee") {
-      // handle_new_user inserted 'employee'; replace with the chosen role
       await supabaseAdmin.from("user_roles").delete().eq("user_id", newId);
       await supabaseAdmin
         .from("user_roles")
@@ -65,6 +70,7 @@ export const setUserRole = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await assertAdmin(context.userId);
+    const supabaseAdmin = await loadAdmin();
     await supabaseAdmin.from("user_roles").delete().eq("user_id", data.user_id);
     const { error } = await supabaseAdmin
       .from("user_roles")
@@ -86,6 +92,7 @@ export const assignDepartment = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await assertAdmin(context.userId);
+    const supabaseAdmin = await loadAdmin();
     const { error } = await supabaseAdmin
       .from("profiles")
       .update({

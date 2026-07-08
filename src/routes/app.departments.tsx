@@ -3,11 +3,16 @@ import { useQuery } from "@tanstack/react-query";
 import { Building2, ArrowRight, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { PageHeader } from "@/components/app/Panels";
+import { RoleGate } from "@/components/app/RoleGate";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/app/departments")({
   head: () => ({ meta: [{ title: "Departments · PerformX" }] }),
-  component: Departments,
+  component: () => (
+    <RoleGate allow={["super_admin", "hod"]} area="Departments">
+      <Departments />
+    </RoleGate>
+  ),
 });
 
 type Dept = {
