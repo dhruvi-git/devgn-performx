@@ -1,11 +1,16 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 const ROLES = ["super_admin", "hod", "team_lead", "employee"] as const;
 
+async function loadAdmin() {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  return supabaseAdmin;
+}
+
 async function assertAdmin(userId: string) {
+  const supabaseAdmin = await loadAdmin();
   const { data, error } = await supabaseAdmin
     .from("user_roles")
     .select("role")
