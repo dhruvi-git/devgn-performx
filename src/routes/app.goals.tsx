@@ -114,9 +114,9 @@ function GoalsPage() {
   const peopleQ = useQuery({
     queryKey: ["profiles-min"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("profiles").select("id, full_name, email");
+      const { data, error } = await supabase.from("profiles_directory").select("id, full_name");
       if (error) throw error;
-      return data ?? [];
+      return (data ?? []).map((p) => ({ id: p.id as string, full_name: p.full_name as string | null, email: null as string | null }));
     },
   });
 

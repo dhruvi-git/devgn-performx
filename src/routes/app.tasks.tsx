@@ -73,8 +73,8 @@ function TasksPage() {
   const { data: people = [] } = useQuery({
     queryKey: ["task-people"],
     queryFn: async () => {
-      const { data } = await supabase.from("profiles").select("id, full_name, email");
-      return (data ?? []) as { id: string; full_name: string; email: string | null }[];
+      const { data } = await supabase.from("profiles_directory").select("id, full_name");
+      return (data ?? []).map((p) => ({ id: p.id as string, full_name: p.full_name as string, email: null as string | null }));
     },
   });
 

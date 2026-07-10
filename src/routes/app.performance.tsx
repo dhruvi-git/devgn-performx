@@ -49,7 +49,7 @@ function PerformancePage() {
   const { data: people = [] } = useQuery({
     queryKey: ["perf-people"],
     queryFn: async () => {
-      const { data } = await supabase.from("profiles").select("id, full_name, department_id");
+      const { data } = await supabase.from("profiles_directory").select("id, full_name, department_id");
       return (data ?? []) as Profile[];
     },
     enabled: isManager,

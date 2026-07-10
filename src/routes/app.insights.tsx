@@ -37,7 +37,7 @@ function InsightsPage() {
   const { data: people = [] } = useQuery({
     queryKey: ["insights-people"],
     queryFn: async () => {
-      const { data } = await supabase.from("profiles").select("id, full_name");
+      const { data } = await supabase.from("profiles_directory").select("id, full_name");
       return (data ?? []) as Profile[];
     },
     enabled: isManager,
