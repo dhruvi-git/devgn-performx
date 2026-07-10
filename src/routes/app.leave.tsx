@@ -87,7 +87,7 @@ function LeavePage() {
   const { data: directory = [] } = useQuery({
     queryKey: ["directory"],
     queryFn: async () => {
-      const { data } = await supabase.from("profiles").select("id, full_name");
+      const { data } = await supabase.from("profiles_directory").select("id, full_name");
       return (data ?? []) as { id: string; full_name: string }[];
     },
     enabled: isManager,
